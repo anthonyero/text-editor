@@ -18,12 +18,32 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      
+      new HtmlWebpackPlugin({
+        template: './index.html',
+        title: 'Webpack Plugin'
+      })
     ],
 
     module: {
       rules: [
-        
+        {
+          test: /.css$/i, // Allows CSS to be bundled
+          use: ['style-loader', 'css-loader']
+        },
+        {
+          test: /[^\s]+(.*?).(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/, // Allows images to be bundled
+          type: 'asset/resource'
+        },
+        {
+          test: /\.m?js$/, // Allows JavaScript files with ES6 language to be downgraded
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+          }
+        },
       ],
     },
   };
