@@ -32,14 +32,12 @@ export const getDb = async () => {
     const jateDb = await openDB('jate', 1);
     const tx = jateDb.transaction('jate', 'readonly');
     const store = tx.objectStore('jate');
-    const request = store.getAll();
+    const request = store.get(1); // get(id), we pass 1 because we are only storing one item and continually updating it
     const result = await request;
-    console.log('result.value', result);
-    return result[0].content;
+    return result.content; // I am parsing the result to return the content that will be passed to the editor
   } catch (err) {
     console.error(err);
   }
 }
-
 
 initdb();
